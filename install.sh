@@ -22,13 +22,13 @@ fi
 
 SCRIPT_NAME="marznode"
 SCRIPT_VERSION="v0.1.4"
-SCRIPT_URL="https://raw.githubusercontent.com/ali-ar1/marznode/main/install.sh"
-INSTALL_DIR="/var/lib/marznode"
+SCRIPT_URL="https://raw.githubusercontent.com/firegoood/marznode/main/install.sh"
+INSTALL_DIR="/opt/marznode"
 LOG_FILE="${INSTALL_DIR}/marznode.log"
 COMPOSE_FILE="${INSTALL_DIR}/docker-compose.yml"
 GITHUB_REPO="https://github.com/marzneshin/marznode.git"
 GITHUB_API="https://api.github.com/repos/XTLS/Xray-core/releases"
-DEFAULT_XRAY_CONFIG_URL="https://raw.githubusercontent.com/ali-ar1/marznode/main/xray_config.json"
+DEFAULT_XRAY_CONFIG_URL="https://raw.githubusercontent.com/firegoood/marznode/main/xray_config.json"
 DEFAULT_CERTIFICATE="-----BEGIN CERTIFICATE-----
 MIIEnDCCAoQCAQAwDQYJKoZIhvcNAQENBQAwEzERMA8GA1UEAwwIR296YXJnYWgw
 IBcNMjQxMDE0MTExNTA5WhgPMjEyNDA5MjAxMTE1MDlaMBMxETAPBgNVBAMMCEdv
@@ -120,9 +120,9 @@ is_running() { docker ps | grep -q "marzneshin-marznode-1"; }
 
 create_directories() {
     mkdir -p "$INSTALL_DIR" "${INSTALL_DIR}/data" "${INSTALL_DIR}/assets"
-    wget -O /var/lib/marznode/assets/geosite.dat https://github.com/v2fly/domain-list-community/releases/latest/download/dlc.dat
-    wget -O /var/lib/marznode/assets/geoip.dat https://github.com/v2fly/geoip/releases/latest/download/geoip.dat
-    wget -O /var/lib/marznode/assets/iran.dat https://github.com/bootmortis/iran-hosted-domains/releases/latest/download/iran.dat
+    wget -O /opt/marznode/assets/geosite.dat https://github.com/v2fly/domain-list-community/releases/latest/download/dlc.dat
+    wget -O /opt/marznode/assets/geoip.dat https://github.com/v2fly/geoip/releases/latest/download/geoip.dat
+    wget -O /opt/marznode/assets/iran.dat https://github.com/bootmortis/iran-hosted-domains/releases/latest/download/iran.dat
 }
 
 get_certificate() {
@@ -233,17 +233,17 @@ services:
       XRAY_RESTART_ON_FAILURE: "True"
       XRAY_RESTART_ON_FAILURE_INTERVAL: "5"
       XRAY_VLESS_REALITY_FLOW: "xtls-rprx-vision"
-      XRAY_EXECUTABLE_PATH: "/var/lib/marznode/xray"
-      XRAY_ASSETS_PATH: "/var/lib/marznode/data"
-      XRAY_CONFIG_PATH: "/var/lib/marznode/xray_config.json"
+      XRAY_EXECUTABLE_PATH: "/opt/marznode/xray"
+      XRAY_ASSETS_PATH: "/opt/marznode/data"
+      XRAY_CONFIG_PATH: "/opt/marznode/xray_config.json"
       SING_BOX_EXECUTABLE_PATH: "/usr/local/bin/sing-box"
       HYSTERIA_EXECUTABLE_PATH: "/usr/local/bin/hysteria"
-      SSL_CLIENT_CERT_FILE: "/var/lib/marznode/client.pem"
+      SSL_CLIENT_CERT_FILE: "/opt/marznode/client.pem"
       SSL_KEY_FILE: "./server.key"
       SSL_CERT_FILE: "./server.cert"
     volumes:
-      - ${INSTALL_DIR}:/var/lib/marznode
-      - /var/lib/marznode/assets:/usr/local/share/xray
+      - ${INSTALL_DIR}:/opt/marznode
+      - /opt/marznode/assets:/usr/local/share/xray
 EOF
     success "Docker Compose file created at $COMPOSE_FILE"
 }
